@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DATAAN — AI Data Analysis</title>
+    <meta name="description" content="AI-powered data analysis dashboard">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css?v=3">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+</head>
+<body data-theme="light">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <rect width="28" height="28" rx="8" fill="var(--accent)"/>
+                    <rect x="5" y="14" width="4" height="9" rx="1.5" fill="white"/>
+                    <rect x="12" y="8" width="4" height="15" rx="1.5" fill="white"/>
+                    <rect x="19" y="5" width="4" height="18" rx="1.5" fill="white"/>
+                </svg>
+                <span class="logo-text">DATAAN</span>
+            </div>
+        </div>
+
+        <button class="new-analysis-btn" id="newAnalysisBtn">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            New Analysis
+        </button>
+
+        <div class="sidebar-section-label">Recent</div>
+        <div class="session-list" id="sessionList">
+            <!-- rendered by JS -->
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+                <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content" id="mainContent">
+        <!-- Top bar -->
+        <header class="topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <h1 class="session-title" id="sessionTitle">Dashboard</h1>
+            <button class="view-results-btn" id="viewResultsBtn" style="display:none">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+                View Results
+            </button>
+        </header>
+
+        <!-- Empty state / Welcome -->
+        <div class="welcome-state" id="welcomeState">
+            <div class="welcome-card">
+                <div class="welcome-icon">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <rect width="48" height="48" rx="14" fill="var(--accent-bg)"/>
+                        <rect x="10" y="24" width="6" height="14" rx="2" fill="var(--accent)"/>
+                        <rect x="21" y="16" width="6" height="22" rx="2" fill="var(--accent)"/>
+                        <rect x="32" y="10" width="6" height="28" rx="2" fill="var(--accent)"/>
+                    </svg>
+                </div>
+                <h2>Welcome to DATAAN</h2>
+                <p>Upload a dataset to begin AI-powered analysis</p>
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" id="fileInput" accept=".csv,.json,.xlsx" hidden>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <span class="upload-text">Drop your file here or <strong>browse</strong></span>
+                    <span class="upload-hint">Supports CSV, JSON, XLSX</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat area -->
+        <div class="chat-area" id="chatArea" style="display:none">
+            <div class="messages" id="messages"></div>
+        </div>
+
+        <!-- Input area -->
+        <div class="input-area" id="inputArea" style="display:none">
+            <div class="input-wrapper">
+                <input type="text" id="userInput" placeholder="Type your response..." autocomplete="off">
+                <button class="send-btn" id="sendBtn" title="Send">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M22 2L15 22l-4-9-9-4L22 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button class="summary-btn" id="summaryBtn" title="Generate Executive Summary" style="display:none">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    Summary
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Analysis overlay (canvas) -->
+    <div class="overlay-backdrop" id="overlayBackdrop"></div>
+    <aside class="analysis-overlay" id="analysisOverlay">
+        <div class="overlay-header">
+            <h2 id="overlayTitle">Analysis Results</h2>
+            <button class="close-overlay-btn" id="closeOverlay" title="Close">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+        </div>
+        <div class="overlay-content" id="overlayContent">
+            <!-- charts + explanations rendered by JS -->
+        </div>
+        <div class="overlay-footer">
+            <button class="download-btn" id="downloadSummary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Executive Summary
+            </button>
+        </div>
+    </aside>
+
+    <script src="/static/app.js?v=3"></script>
+</body>
+</html>
