@@ -59,7 +59,3 @@ DATAAN utilizes a state machine built with **LangGraph**:
 - `run.py` - Uvicorn entry point.
 - `static/` - Frontend assets (`index.html`, `app.js`, `styles.css`).
 - `data/` - Session storage, uploaded datasets, and generated outputs.
-
-## 🤝 Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
